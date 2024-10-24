@@ -103,7 +103,7 @@ resource wafPolicy 'Microsoft.Network/FrontDoorWebApplicationFirewallPolicies@20
   }
   properties: {
     customRules: {
-      rules: [
+      rules: empty(allowedIpAddresses) ? null : [
         {
           action: 'Block'
           enabledState: 'Enabled'
