@@ -17,7 +17,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
   location: location
 }
 
-module storageAccount 'storage.bicep' = {
+module storageAccount './modules/storage.bicep' = {
   scope: resourceGroup
   name: 'storageAccount'
   params: {
@@ -26,7 +26,7 @@ module storageAccount 'storage.bicep' = {
   }
 }
 
-module frontDoor 'frontDoor.bicep' = {
+module frontDoor './modules/frontDoor.bicep' = {
   scope: resourceGroup
   name: 'frontDoor'
   params: {
