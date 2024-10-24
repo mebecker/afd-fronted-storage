@@ -16,7 +16,7 @@ Proxying requests from Azure Front Door to the Storage Account will allow you to
     az deployment sub create --location centralus --template-file main.bicep
     ```
 
-    By default all IP addresses will be blocked by the WAF Policy. If you'd like to allow your IP through, either edit the WAF Policy after it's deployed, or deploy as follows. Note the trailing comma in the parameter value -- this is required if you are passing an array with a single value, otherwise the CLI will convert the value to a string and the deployment will fail.
+    By default all IP addresses will be allowed by the WAF Policy. If you'd like to block everything but your IP, either edit the WAF Policy after it's deployed, or deploy as follows. Note the trailing comma in the parameter value -- this is required if you are passing an array with a single value, otherwise the CLI will convert the value to a string and the deployment will fail.
 
     ```bash
     az deployment sub create --location centralus --template-file main.bicep --parameters allowedIpAddresses='("1.2.3.4",)'
