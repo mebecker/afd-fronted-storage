@@ -2,6 +2,10 @@
 
 ## Overview
 
+When an Azure Storage Account is accessed by another Azure resource in the same region, traffic ingresses via an RFC-1918 IP address. This presents an issue if you want to restrict access to the Storage Account - you can't use the Storage Account's IP firewall feature since that only allows public IP addresses. And you can't use "selected virtual networks" since the RFC-1918 address in question isn't on your VNet.
+
+Proxying requests from Azure Front Door to the Storage Account will allow you to restrict access to the storage account via Private Endpoints and then restrict access to the Front Door via WAF Rules.
+
 ![High-level Logical Archichture](assets/overview.png)
 
 ## Instructions
