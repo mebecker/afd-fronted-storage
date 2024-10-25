@@ -2,6 +2,7 @@ param frontDoorName string
 param storageAccountId string
 param storageAccountBlobEndpoint string
 param allowedIpAddresses array = []
+param logAnalyticsWorkspaceId string
 
 resource frontDoor 'Microsoft.Cdn/profiles@2023-07-01-preview' = {
   name: frontDoorName
@@ -165,6 +166,28 @@ resource securityPolicy 'Microsoft.Cdn/profiles/securityPolicies@2023-07-01-prev
         id: wafPolicy.id
       }
     }
+  }
+}
+
+resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  name: frontDoor.name
+  scope: frontDoor
+  properties: {
+    workspaceId: logAnalyticsWorkspaceId
+    logs: [
+      {
+        category: 'FrontDoorAccessLog'
+        enabled: true
+      }
+      {
+        category: 'FrontDoorHealthProbeLog'
+        enabled: true
+      }
+      {
+        category: 'FrontDoorWebApplicationFirewallLog'
+        enabled: true
+      }
+    ]
   }
 }
 
