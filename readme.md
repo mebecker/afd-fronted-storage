@@ -56,6 +56,14 @@ Proxying requests from Azure Front Door to the Storage Account will allow you to
 
 4. Get a sas token from the storage account
 
+    You can use the following command:
+
+    ```bash
+    az storage container generate-sas --account-name xxxxxxx --expiry $(date -u -d "+1 hour" +"%Y-%m-%dT%H:%MZ") --name data --permissions dlrw
+    ```
+
+    Or just get it from the portal:
+
     ![SAS Token](assets/sas.png)
 5. List contents of data container in storage account via front door url
 
@@ -63,7 +71,7 @@ Proxying requests from Azure Front Door to the Storage Account will allow you to
     curl -X GET -H "x-ms-version: 2019-12-12" "https://{frontDoorUrl}/data?restype=container&comp=list&{sasToken}"
     ```
 
-    This should produce something like the following: 
+    This should produce something like the following:
 
     ```xml
     <?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://xxxx.blob.core.windows.net/" ContainerName="data"><Blobs /><NextMarker /></EnumerationResults>
