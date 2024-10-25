@@ -49,6 +49,10 @@ module frontDoor './modules/frontDoor.bicep' = {
   }
 }
 
+output resourceGroupName string = resourceGroupName
+output storageAccountName string = storageAccountName
+output frontDoorName string = frontDoorName
 output frontDoorUrl string = frontDoor.outputs.frontDoorUrl
+
 
 

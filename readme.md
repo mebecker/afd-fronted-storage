@@ -42,8 +42,18 @@ Proxying requests from Azure Front Door to the Storage Account will allow you to
 
 2. Get the front door url from arm deployment output
 
-    ![AFD Url](assets/afdurl.png)
+    ![AFD Url](assets/afd-url.png)
 3. Approve storage account private endpoint. If you don't approve the private endpoint then AFD will return a 504 Service Unavailable error on all requests.
+
+    You can approve it via the following command (you can get the values for RESOURCE_GROUP and STORAGE_ACCOUNT_NAME from the ARM output):
+
+    ```bash
+    RESOURCE_GROUP=rg-afd-storage-poc-xxxxxxxxx
+    STORAGE_ACCOUNT_NAME=xxxxxxxxx
+
+    az network private-endpoint-connection approve --resource-group $RESOURCE_GROUP --name $(az network private-endpoint-connection list --resource-group $RESOURCE_GROUP --name $STORAGE_ACCOUNT_NAME --type Microsoft.Storage/storageAccounts | jq -r '.[0].name') --resource-name $STORAGE_ACCOUNT_NAME --type Microsoft.Storage/storageAccounts --description "Approved"
+    ```
+
 4. Get a sas token from the storage account
 
     ![SAS Token](assets/sas.png)
