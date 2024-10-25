@@ -43,7 +43,7 @@ Proxying requests from Azure Front Door to the Storage Account will allow you to
 2. Get the front door url from arm deployment output
 
     ![AFD Url](assets/afdurl.png)
-3. Approve storage account private endpoint
+3. Approve storage account private endpoint. If you don't approve the private endpoint then AFD will return a 504 Service Unavailable error on all requests.
 4. Get a sas token from the storage account
 
     ![SAS Token](assets/sas.png)

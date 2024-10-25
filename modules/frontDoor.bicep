@@ -32,12 +32,6 @@ resource frontDoorOriginGroup 'Microsoft.Cdn/profiles/originGroups@2023-07-01-pr
   name: 'default-origin-group-${uniqueString(frontDoorName)}'
   parent: frontDoor
   properties: {
-    healthProbeSettings: {
-      probeIntervalInSeconds: 100
-      probePath: '/'
-      probeProtocol: 'Https'
-      probeRequestType: 'HEAD'
-    }
     loadBalancingSettings: {
       additionalLatencyInMilliseconds: 50
       sampleSize: 4
@@ -145,7 +139,7 @@ resource wafPolicy 'Microsoft.Network/FrontDoorWebApplicationFirewallPolicies@20
 }
 
 resource securityPolicy 'Microsoft.Cdn/profiles/securityPolicies@2023-07-01-preview' = {
-  name: 'string'
+  name: 'default-security-policy'
   parent: frontDoor
   properties: {
     parameters: {
