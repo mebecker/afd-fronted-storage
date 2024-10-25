@@ -34,6 +34,8 @@ Proxying requests from Azure Front Door to the Storage Account will allow you to
 
     This will deploy to a resource group called "rg-afd-storage-poc" with a unique string appended. (E.g. rg-afd-storage-poc-w4uhuaeadgeye). The same unique string will be appended to the storage account front door and log analytics workspace resource names. Both the AFD instance and the Storage Account will be configured to send diagnostic logs to the Log Analytics Workspace.
 
+    The Storage Account network settings will be set to disable public network access -- only private endpoint access will be allowed in order to restrict ingress to the AFD instance.
+
 2. Get the front door url from arm deployment output
 
     ![AFD Url](assets/afdurl.png)
