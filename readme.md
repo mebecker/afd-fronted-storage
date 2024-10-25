@@ -32,7 +32,7 @@ Proxying requests from Azure Front Door to the Storage Account will allow you to
 
     Make sure to `az login` and `az account set` in order to choose the appropriate Azure subscription.
 
-    This will deploy to a resource group called "rg-afd-storage-poc" with a unique string appended. (E.g. rg-afd-storage-poc-w4uhuaeadgeye). The same unique string will be appended to the storage account and front door resource names.
+    This will deploy to a resource group called "rg-afd-storage-poc" with a unique string appended. (E.g. rg-afd-storage-poc-w4uhuaeadgeye). The same unique string will be appended to the storage account front door and log analytics workspace resource names. Both the AFD instance and the Storage Account will be configured to send diagnostic logs to the Log Analytics Workspace.
 
 2. Get the front door url from arm deployment output
 
@@ -52,3 +52,29 @@ Proxying requests from Azure Front Door to the Storage Account will allow you to
     ```xml
     <?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://xxxx.blob.core.windows.net/" ContainerName="data"><Blobs /><NextMarker /></EnumerationResults>
     ```
+
+You can validate that things are working as expected via Log Analytics using the following queries:
+
+```kql
+AzureDiagnostics
+| where TimeGenerated > ago(10m)
+| where Category in ('FrontDoorAccessLog')
+| project TimeGenerated, Category, requestUri_s, userAgent_s, clientIP_s, clientIp_s, action_s, httpStatusCode_s
+| order by Category, TimeGenerated desc
+```
+
+Here you can see that requests come into AFD using your public ip address:
+
+![AFD Logs](assets/afd-logs.png)
+
+```kql
+StorageBlobLogs 
+| where TimeGenerated > ago(10m)
+| project TimeGenerated, OperationName, AuthenticationType, StatusCode, CallerIpAddress, Uri
+| where OperationName has 'ListBlobs'
+| order by TimeGenerated desc
+```
+
+And here you can see that the storage account sees the ip address of the private endpoint from AFD:
+
+![Storage Logs](assets/storage-logs.png)
