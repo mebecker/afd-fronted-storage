@@ -12,6 +12,8 @@ Proxying requests from Azure Front Door to the Storage Account will allow you to
 
 ![High-level Logical Archichture](assets/overview.png)
 
+There are a couple good overviews of this approach [here](https://learn.microsoft.com/en-us/azure/frontdoor/standard-premium/how-to-enable-private-link-storage-account) and [here](https://learn.microsoft.com/en-us/azure/frontdoor/integrate-storage-account). This repo provides a deployably, working example.
+
 ## Instructions
 
 1. Deploy resources
